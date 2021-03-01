@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 import cv2
-from pyimagesearch.shape_detector import ShapeDetector
-from pyimagesearch.color_detector import ColorDetector
+from utils.shape_detector import ShapeDetector
+from utils.color_detector import ColorDetector
 import argparse
 import imutils
 
@@ -65,6 +65,7 @@ for c in cnts:
     print('Shape: ' + shape)
     print('Center: ' + str(cX) + ', ' + str(cY))
     print('Image size: ' + str(image.shape[0]) + ', ' + str(image.shape[1]))
+    print('Color: ' + color)
 
 
 resized = imutils.resize(image, width=600)

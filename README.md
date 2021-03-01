@@ -20,5 +20,5 @@ python .\piece_detector.py --image your_image_file_path
 Exemple:
 
 ```bash
-python .\piece_detector.py .\images\piece_01.bmp
+python .\piece_detector.py --image .\images\piece_01.bmp
 ```
