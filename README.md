@@ -8,6 +8,7 @@ Python script to detect one piece in an image, determine it's shape, color and c
 - OpenCV 3.4.2
 - pip install imutils
 - pip install numpy
+- pip install -U scikit-learn
 
 ## Usage
 

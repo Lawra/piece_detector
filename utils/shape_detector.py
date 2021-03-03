@@ -1,5 +1,7 @@
 
 import cv2
+import imutils
+import numpy as np
 
 
 class ShapeDetector:
@@ -32,3 +34,33 @@ class ShapeDetector:
             shape = "circle"
         # return the name of the shape
         return shape
+
+    def detect_circles(self, input_image):
+        image = input_image.copy()
+        resized = imutils.resize(image, width=300)
+        ratio = image.shape[0] / float(resized.shape[0])
+        gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
+
+        circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 20,
+                                   param1=50, param2=30, minRadius=10, maxRadius=30)
+
+        circles = np.uint16(np.around(circles))
+        circles_scaled = (circles*ratio).astype(int)
+
+        for i in circles_scaled[0, :]:
+            # draw the outer circle
+            cv2.circle(image, (i[0], i[1]), i[2], (0, 255, 0), 6)
+            # draw the center of the circle
+            cv2.circle(image, (i[0], i[1]), 2, (0, 0, 255), 10)
+
+        self.display_image(image, "circles")
+        print(circles_scaled[0, :])
+
+        return circles_scaled[0, :]
+
+    def display_image(self, input_image, title):
+        image = input_image.copy()
+        image = imutils.resize(image, width=700)
+
+        cv2.imshow(title, image)
+        cv2.waitKey(0)
