@@ -15,8 +15,7 @@ ap.add_argument("-i", "--image", required=True,
 args = vars(ap.parse_args())
 
 
-# load the image and resize it to a smaller factor so that
-# the shapes can be approximated better
+# load the image:
 image = cv2.imread(args["image"])
 
 # Detect border points:
