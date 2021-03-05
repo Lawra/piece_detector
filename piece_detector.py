@@ -17,6 +17,7 @@ args = vars(ap.parse_args())
 
 # load the image:
 image = cv2.imread(args["image"])
+img_heigth, img_width, chanels = image.shape
 
 # Detect border points:
 bd = BoderDetector()
@@ -27,3 +28,5 @@ sd = ShapeDetector()
 circles = sd.detect_circles(image)
 
 # translate points in mm:
+result = bd.convert_px_to_mm(border_points, circles[0][:2], img_width)
+print("result:" + str(result))

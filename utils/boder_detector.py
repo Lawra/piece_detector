@@ -6,6 +6,15 @@ from sklearn.cluster import KMeans
 
 
 class BoderDetector:
+    POINTS_MM = {
+        "P1": [365, 220],
+        "P2": [145, 220],
+        "P3": [145, 375],
+        "P4": [330, 335],
+        "P5": [330, 335],
+        "P6": [365, 335],
+    }
+
     def __init__(self):
         pass
 
@@ -88,3 +97,37 @@ class BoderDetector:
         # Delete from list
         list_points.remove(result)
         return result
+
+    def convert_px_to_mm(self, border_px_points, point, img_width):
+        point = [img_width - point[0], point[1]]
+        print("point in px: " + str(point))
+        p1_mm = self.POINTS_MM["P1"]
+        p1_px = [img_width - border_px_points["P1"]
+                 [0], border_px_points["P1"][1]]
+
+        p2_mm = self.POINTS_MM["P2"]
+        p2_px = [img_width - border_px_points["P2"]
+                 [0], border_px_points["P2"][1]]
+
+        p3_mm = self.POINTS_MM["P3"]
+        p3_px = [img_width - border_px_points["P3"]
+                 [0], border_px_points["P3"][1]]
+
+        dist_px_x = p1_px[0] - p2_px[0]
+        print("dist_px_x: " + str(dist_px_x) +
+              "=" + str(p1_px[0]) + "-"+str(p2_px[0]))
+
+        dist_mm_x = p1_mm[0] - p2_mm[0]
+        print("dist_mm_x: " + str(dist_mm_x) +
+              "=" + str(p1_mm[0]) + "-"+str(p2_mm[0]))
+        px_mm_x = dist_mm_x/dist_px_x
+
+        print("num de mm por pixel en x: " + str(px_mm_x))
+
+        dist_px_y = p3_px[1] - p2_px[1]
+        dist_mm_y = p3_mm[1] - p2_mm[1]
+        px_mm_y = dist_mm_y/dist_px_y
+
+        print("num de mm por pixel en y: " + str(px_mm_y))
+
+        return [p2_mm[0] + point[0]*px_mm_x, p2_mm[1] + point[1]*px_mm_y]
