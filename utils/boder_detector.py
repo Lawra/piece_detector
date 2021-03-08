@@ -64,23 +64,7 @@ class BoderDetector:
         # Get P6
         border_points["P6"] = centroids[0]
 
-        for key in border_points:
-            print(key + ": " + str(border_points[key]))
-            cv2.circle(image, (border_points[key][0], border_points[key][1]), radius=10, color=(
-                0, 0, 255), thickness=-1)
-            cv2.putText(image, key, (border_points[key][0], border_points[key][1]), cv2.FONT_HERSHEY_SIMPLEX,
-                        4, (0, 0, 0), 4)
-
-        # self.display_image(image, "result")
-
         return border_points
-
-    def display_image(self, input_image, title):
-        image = input_image.copy()
-        image = imutils.resize(image, width=700)
-
-        cv2.imshow(title, image)
-        cv2.waitKey(0)
 
     def get_n_point(self, reference, list_points):
         result = list_points[0]
@@ -100,7 +84,7 @@ class BoderDetector:
 
     def convert_px_to_mm(self, border_px_points, point, img_width):
         point = [img_width - point[0], point[1]]
-        print("point in px: " + str(point))
+
         p1_mm = self.POINTS_MM["P1"]
         p1_px = [img_width - border_px_points["P1"]
                  [0], border_px_points["P1"][1]]
@@ -113,21 +97,14 @@ class BoderDetector:
         p3_px = [img_width - border_px_points["P3"]
                  [0], border_px_points["P3"][1]]
 
+        # Pixels per mmm on x
         dist_px_x = p1_px[0] - p2_px[0]
-        print("dist_px_x: " + str(dist_px_x) +
-              "=" + str(p1_px[0]) + "-"+str(p2_px[0]))
-
         dist_mm_x = p1_mm[0] - p2_mm[0]
-        print("dist_mm_x: " + str(dist_mm_x) +
-              "=" + str(p1_mm[0]) + "-"+str(p2_mm[0]))
         px_mm_x = dist_mm_x/dist_px_x
 
-        print("num de mm por pixel en x: " + str(px_mm_x))
-
+        # Pixels per mmm on y
         dist_px_y = p3_px[1] - p2_px[1]
         dist_mm_y = p3_mm[1] - p2_mm[1]
         px_mm_y = dist_mm_y/dist_px_y
 
-        print("num de mm por pixel en y: " + str(px_mm_y))
-
-        return [p2_mm[0] + point[0]*px_mm_x, p2_mm[1] + point[1]*px_mm_y]
+        return [int(p2_mm[0] + point[0]*px_mm_x), int(p2_mm[1] + point[1]*px_mm_y)]

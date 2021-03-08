@@ -47,15 +47,6 @@ class ShapeDetector:
         circles = np.uint16(np.around(circles))
         circles_scaled = (circles*ratio).astype(int)
 
-        for i in circles_scaled[0, :]:
-            # draw the outer circle
-            cv2.circle(image, (i[0], i[1]), i[2], (0, 255, 0), 6)
-            # draw the center of the circle
-            cv2.circle(image, (i[0], i[1]), 2, (0, 0, 255), 10)
-
-        self.display_image(image, "circles")
-        print(circles_scaled[0, :])
-
         return circles_scaled[0, :]
 
     def display_image(self, input_image, title):
