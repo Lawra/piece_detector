@@ -40,8 +40,8 @@ for i in circles:
 
 # translate points in mm:
 for point in circles:
-    result = bd.convert_px_to_mm(border_points, point[:2], img_width)
+    result = bd.convert_px_to_mm(border_points, point[:2])
     cv2.putText(result_img, str(
-        result), (point[0], point[1]),  cv2.FONT_HERSHEY_SIMPLEX,  2, (255, 255, 255), 4)
+        result), (point[0], point[1]),  cv2.FONT_HERSHEY_SIMPLEX,  4, (255, 255, 255), 7)
 
 sd.display_image(result_img, "result_img")

@@ -7,12 +7,9 @@ from sklearn.cluster import KMeans
 
 class BoderDetector:
     POINTS_MM = {
-        "P1": [365, 220],
-        "P2": [145, 220],
-        "P3": [145, 375],
-        "P4": [330, 335],
-        "P5": [330, 335],
-        "P6": [365, 335],
+        "P1": [0, 0],
+        "P2": [220, 0],
+        "P3": [220, 155]
     }
 
     def __init__(self):
@@ -82,20 +79,15 @@ class BoderDetector:
         list_points.remove(result)
         return result
 
-    def convert_px_to_mm(self, border_px_points, point, img_width):
-        point = [img_width - point[0], point[1]]
-
+    def convert_px_to_mm(self, border_px_points, point):
         p1_mm = self.POINTS_MM["P1"]
-        p1_px = [img_width - border_px_points["P1"]
-                 [0], border_px_points["P1"][1]]
+        p1_px = border_px_points["P1"]
 
         p2_mm = self.POINTS_MM["P2"]
-        p2_px = [img_width - border_px_points["P2"]
-                 [0], border_px_points["P2"][1]]
+        p2_px = border_px_points["P2"]
 
         p3_mm = self.POINTS_MM["P3"]
-        p3_px = [img_width - border_px_points["P3"]
-                 [0], border_px_points["P3"][1]]
+        p3_px = border_px_points["P3"]
 
         # Pixels per mmm on x
         dist_px_x = p1_px[0] - p2_px[0]
@@ -107,4 +99,4 @@ class BoderDetector:
         dist_mm_y = p3_mm[1] - p2_mm[1]
         px_mm_y = dist_mm_y/dist_px_y
 
-        return [int(p2_mm[0] + point[0]*px_mm_x), int(p2_mm[1] + point[1]*px_mm_y)]
+        return [int(point[0]*px_mm_x), int(point[1]*px_mm_y)]
