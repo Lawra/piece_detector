@@ -28,20 +28,25 @@ for key in border_points:
     cv2.putText(result_img, key, (border_points[key][0], border_points[key][1]), cv2.FONT_HERSHEY_SIMPLEX,
                 4, (0, 0, 0), 4)
 
+# Compute perspective correction transform
+image_trans = bd.perspective_transform(image, border_points)
+
 # Detect circles in image:
 sd = ShapeDetector()
-circles = sd.detect_circles(image)
+sd.display_image(image_trans, "image_trans")
+
+circles = sd.detect_circles(image_trans)
 
 for i in circles:
     # draw the outer circle
-    cv2.circle(result_img, (i[0], i[1]), i[2], (0, 255, 0), 6)
+    cv2.circle(image_trans, (i[0], i[1]), i[2], (0, 255, 0), 6)
     # draw the center of the circle
-    cv2.circle(result_img, (i[0], i[1]), 2, (0, 0, 255), 10)
+    cv2.circle(image_trans, (i[0], i[1]), 2, (0, 0, 255), 10)
 
 # translate points in mm:
 for point in circles:
     result = bd.convert_px_to_mm(border_points, point[:2])
-    cv2.putText(result_img, str(
+    cv2.putText(image_trans, str(
         result), (point[0], point[1]),  cv2.FONT_HERSHEY_SIMPLEX,  4, (255, 255, 255), 7)
 
-sd.display_image(result_img, "result_img")
+sd.display_image(image_trans, "result_img")
