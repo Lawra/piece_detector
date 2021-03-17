@@ -98,28 +98,11 @@ class BoderDetector:
         list_points.remove(result)
         return result
 
-    def convert_px_to_mm(self, border_px_points, point):
-        p1_mm = self.POINTS_MM["P1"]
-        p1_px = border_px_points["P1"]
-
-        p2_mm = self.POINTS_MM["P2"]
-        p2_px = border_px_points["P2"]
-
+    def convert_px_to_mm(self, point, img_width, img_heigth):
         p3_mm = self.POINTS_MM["P3"]
-        p3_px = border_px_points["P3"]
 
-        # Pixels per mmm on x
-        dist_px_x = p2_px[0] - p1_px[0]
-        dist_mm_x = p2_mm[0]
-        px_mm_x = dist_mm_x/dist_px_x
-
-        # Pixels per mmm on y
-        dist_px_y = p3_px[1] - p2_px[1]
-        dist_mm_y = p3_mm[1]
-        px_mm_y = dist_mm_y/dist_px_y
-
-        point_mm_x = round(point[0]*px_mm_x, 2)
-        point_mm_y = round(point[1]*px_mm_y, 2)
+        point_mm_x = round(point[0]*p3_mm[0]/img_width, 2)
+        point_mm_y = round(point[1]*p3_mm[1]/img_heigth, 2)
 
         return [point_mm_x, point_mm_y]
 
